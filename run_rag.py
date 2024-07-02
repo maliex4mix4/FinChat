@@ -32,14 +32,16 @@ def response(user_query):
         return [doc.page_content for doc in docs]
 
     # Define the RAG prompt template
-    template = """Use the following pieces of context to answer the question at the end.
-    Say that you don't know when asked a question you don't know, do not make up an answer. Be precise and concise in your answer.
+    template = """Use the provided context to formulate your response to the question below. If unsure, explicitly state that you don't have the information. Avoid speculation; provide precise and concise answers.
 
+    Context:
     {context}
 
-    Question: {question}
+    Question:
+    {question}
 
     Helpful Answer:"""
+
 
     # Create a custom RAG prompt
     custom_rag_prompt = PromptTemplate.from_template(template)

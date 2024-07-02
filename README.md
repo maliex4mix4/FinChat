@@ -7,7 +7,7 @@ The chatbot leverages OpenAI API for user query comprehension complemented with 
 Tools Used: 
   1. LangChain framework: for user query synthesis and reply generation
   2. Flask: for web gui
-  3. Groq (llama3-70b-8192): for language understanding
+  3. Groq (llama3-70b-8192): for language understanding. Visit: <https://console.groq.com/keys>
   4. Insights: for current information retrieval; 
      - [Link](https://www.mckinsey.com/featured-insights)
      - <https://www.bain.com/insights/>

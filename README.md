@@ -6,7 +6,7 @@ The chatbot leverages OpenAI API for user query comprehension complemented with 
 
 Tools Used: 
   1. LangChain framework: for user query synthesis and reply generation
-  2. Flask: for web gui
+  2. Streamlit: for web gui
   3. Groq (llama3-70b-8192): for language understanding. Visit: <https://console.groq.com/keys>
   4. Insights: for current information retrieval; 
      - [Link](https://www.mckinsey.com/featured-insights)
@@ -30,5 +30,8 @@ Tools Used:
 5. Add your OpenAI API key in a .env file
 6. On the terminal run the command below 
 
-     `python app.py`
-7. You can punch in the text: "What is Finacial times saying about US?"
+     `python setup.py`
+7. Run the program
+
+     `streamlit run rag.py`
+8. You can punch in the text: "What is Finacial times saying about US?"

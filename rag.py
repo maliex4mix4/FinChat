@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 
 from dotenv import load_dotenv
 from langchain import hub
@@ -7,6 +8,7 @@ from langchain.chains import create_history_aware_retriever, create_retrieval_ch
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.memory import ConversationBufferMemory
 from langchain_core.tools import Tool
 from langchain_groq import ChatGroq
 from utils.commons import embeddings
@@ -94,15 +96,30 @@ agent_executor = AgentExecutor.from_agent_and_tools(
     agent=agent, tools=tools, handle_parsing_errors=True, verbose=True,
 )
 
-chat_history = []
-while True:
-    query = input("You: ")
-    if query.lower() == "exit":
-        break
-    response = agent_executor.invoke(
-        {"input": query, "chat_history": chat_history})
-    print(f"AI: {response['output']}")
+if __name__ == "__main__":
+    st.title("FinChat Answering App")
+    st.write("Welcome to FinChat, your AI assistant for financial questions.")
 
-    # Update history
-    chat_history.append(HumanMessage(content=query))
-    chat_history.append(AIMessage(content=response["output"]))
+    @st.cache_data
+    def get_memory():
+        return []
+
+    chat_memory = get_memory()
+
+    def show_messages(messages):
+        for message in messages:
+            st.write(message)
+
+    with st.container():
+        st.markdown("### Conversation")
+        show_messages(chat_memory)
+
+    query = st.text_input(label="Your message: ", key="input", placeholder="Type your message here...", label_visibility="collapsed")
+    if query:
+        response = agent_executor.invoke({"input": query, "chat_history": chat_memory})
+
+        # Update history
+        chat_memory.append(HumanMessage(content=query))
+        chat_memory.append(AIMessage(content=response["output"]))
+
+        st.rerun()
